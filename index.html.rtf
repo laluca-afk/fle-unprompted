@@ -1,0 +1,188 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 AppleColorEmoji;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="fr">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>G\'e9n\'e9rateur de Sujets en fran\'e7ais</title>\
+    <style>\
+        :root \{\
+            --primary: #2563eb;\
+            --background: #f8fafc;\
+            --card: #ffffff;\
+            --text: #1e293b;\
+        \}\
+        body \{\
+            font-family: system-ui, -apple-system, sans-serif;\
+            background-color: var(--background);\
+            color: var(--text);\
+            display: flex;\
+            flex-direction: column;\
+            align-items: center;\
+            justify-content: center;\
+            min-height: 100vh;\
+            margin: 0;\
+            padding: 20px;\
+        \}\
+        .container \{\
+            background: var(--card);\
+            padding: 30px;\
+            border-radius: 16px;\
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);\
+            max-width: 600px;\
+            width: 100%;\
+            text-align: center;\
+        \}\
+        select, button \{\
+            padding: 12px 24px;\
+            font-size: 16px;\
+            border-radius: 8px;\
+            border: 1px solid #cbd5e1;\
+            margin: 10px;\
+            cursor: pointer;\
+        \}\
+        button \{\
+            background-color: var(--primary);\
+            color: white;\
+            border: none;\
+            font-weight: bold;\
+            transition: background 0.2s;\
+        \}\
+        button:hover \{ background-color: #1d4ed8; \}\
+        .sujet-box \{\
+            font-size: 22px;\
+            font-weight: 600;\
+            margin: 40px 0;\
+            min-height: 80px;\
+            display: flex;\
+            align-items: center;\
+            justify-content: center;\
+            color: #0f172a;\
+        \}\
+        .timer \{\
+            font-size: 18px;\
+            color: #64748b;\
+            font-weight: bold;\
+        \}\
+    </style>\
+</head>\
+<body>\
+\
+<div class="container">\
+    <h1>
+\f1 \uc0\u55356 \u57266 
+\f0  G\'e9n\'e9rateur de sujets</h1>\
+    <p>Choisissez votre niveau et piochez un sujet pour pratiquer votre fran\'e7ais \'e0 l'oral !</p>\
+    \
+    <div>\
+        <select id="niveauSelect">\
+            <option value="tous">Tous les niveaux</option>\
+            <option value="debutant">D\'e9butant (A1-A2)</option>\
+            <option value="inter">Interm\'e9diaire (B1-B2)</option>\
+            <option value="avance">Avanc\'e9 (C1-C2)</option>\
+        </select>\
+        <button onclick="genererSujet()">Piocher un sujet</button>\
+    </div>\
+\
+    <div class="sujet-box" id="sujetAffichage">Cliquez sur le bouton pour commencer...</div>\
+    <div class="timer" id="timerAffichage"></div>\
+</div>\
+\
+<script>\
+// --- C'EST ICI QUE VOUS POUVEZ MODIFIER VOS SUJETS ---\
+const banqueDeSujets = [\
+\
+    // --- NIVEAU D\'c9BUTANT (A1-A2) ---\
+    \{ niveau: "debutant", texte: "Pr\'e9sentez votre animal de compagnie ou celui de vos r\'eaves." \},\
+    \{ niveau: "debutant", texte: "D\'e9crivez votre routine du matin en 5 phrases." \},\
+    \{ niveau: "debutant", texte: "Quel est votre plat fran\'e7ais pr\'e9f\'e9r\'e9 et pourquoi ?" \},\
+    \{ niveau: "debutant", texte: "Parlez de votre saison de l'ann\'e9e pr\'e9f\'e9r\'e9e et de ce que vous faites pendant cette p\'e9riode." \},\
+    \{ niveau: "debutant", texte: "D\'e9crivez la maison ou l'appartement de vos r\'eaves." \},\
+    \{ niveau: "debutant", texte: "Quelle est votre profession ou le m\'e9tier que vous aimeriez faire ?" \},\
+    \{ niveau: "debutant", texte: "Racontez ce que vous avez fait le week-end dernier." \},\
+    \{ niveau: "debutant", texte: "Si vous deviez vivre dans une autre ville, laquelle choisiriez-vous ?" \},\
+    \{ niveau: "debutant", texte: "Quel est le dernier film ou la derni\'e8re s\'e9rie que vous avez regard\'e9 ?" \},\
+    \{ niveau: "debutant", texte: "Pr\'e9sentez un membre de votre famille ou un ami proche." \},\
+\
+    // --- NIVEAU INTERM\'c9DIAIRE (B1-B2) ---\
+    \{ niveau: "inter", texte: "Faut-il interdire les \'e9crans aux enfants de moins de 6 ans ?" \},\
+    \{ niveau: "inter", texte: "Racontez un voyage qui a chang\'e9 votre fa\'e7on de voir les choses." \},\
+    \{ niveau: "inter", texte: "Est-il pr\'e9f\'e9rable de vivre en ville ou \'e0 la campagne ? Donnez trois arguments." \},\
+    \{ niveau: "inter", texte: "Pensez-vous que les r\'e9seaux sociaux nous rapprochent ou nous isolent des autres ?" \},\
+    \{ niveau: "inter", texte: "Si vous gagniez \'e0 la loterie demain, que feriez-vous de cet argent ?" \},\
+    \{ niveau: "inter", texte: "Le t\'e9l\'e9travail est-il une chance ou un pi\'e8ge pour la vie de famille ?" \},\
+    \{ niveau: "inter", texte: "Quelle est, selon vous, la comp\'e9tence la plus importante \'e0 apprendre au XXIe si\'e8cle ?" \},\
+    \{ niveau: "inter", texte: "Devrait-on rendre les transports en commun enti\'e8rement gratuits dans toutes les grandes villes ?" \},\
+    \{ niveau: "inter", texte: "Racontez un d\'e9fi ou une difficult\'e9 que vous avez r\'e9ussi \'e0 surmonter dans votre vie \'e9tudiante ou professionnelle.\'a0\'bb \},\
+    \{ niveau: "inter", texte: "Si vous pouviez d\'eener avec une personnalit\'e9 historique, qui choisiriez-vous et pourquoi ?" \},\
+\
+    // --- NIVEAU AVANC\'c9 (C1-C2) ---\
+    \{ niveau: "avance", texte: "L'intelligence artificielle va-t-elle tuer la cr\'e9ativit\'e9 humaine ?" \},\
+    \{ niveau: "avance", texte: "Le concept de travail de 9h \'e0 17h est-il devenu totalement obsol\'e8te ?" \},\
+    \{ niveau: "avance", texte: "Peut-on r\'e9ellement s\'e9parer l'homme de l'artiste ?" \},\
+    \{ niveau: "avance", texte: "La qu\'eate de la croissance \'e9conomique infinie est-elle compatible avec la transition \'e9cologique ?" \},\
+    \{ niveau: "avance", texte: "L'anonymat sur Internet doit-il \'eatre pr\'e9serv\'e9 \'e0 tout prix ou aboli pour \'e9viter les d\'e9rives ?" \},\
+    \{ niveau: "avance", texte: "Dans quelle mesure notre langue maternelle fa\'e7onne-t-elle notre perception du monde ?" \},\
+    \{ niveau: "avance", texte: "Les mus\'e9es doivent-ils restituer toutes les \'9cuvres d'art acquises pendant la p\'e9riode coloniale ?" \},\
+    \{ niveau: "avance", texte: "L'allongement de l'esp\'e9rance de vie est-il un progr\'e8s social ou un d\'e9fi \'e9conomique insurmontable ?" \},\
+    \{ niveau: "avance", texte: "Le vote obligatoire est-il le meilleur rem\'e8de contre l'abstention d\'e9mocratique ?" \},\
+    \{ niveau: "avance", texte: "Peut-on encore cr\'e9er de l'art totalement original aujourd'hui, ou ne faisons-nous que recycler le pass\'e9 ?" \}\
+];\
+// ----------------------------------------------------\
+\
+let tempsRestant;\
+let intervalleTimer;\
+\
+function genererSujet() \{\
+    clearInterval(intervalleTimer);\
+    document.getElementById("timerAffichage").innerText = "";\
+    \
+    const niveauSelectionne = document.getElementById("niveauSelect").value;\
+    \
+    // Filtrer les sujets\
+    const sujets Filtres = banqueDeSujets.filter(sujet => \{\
+        return niveauSelectionne === "tous" || sujet.niveau === niveauSelectionne;\
+    \});\
+\
+    // Tirage al\'e9atoire\
+    const indexAleatoire = Math.floor(Math.random() * sujetsFiltres.length);\
+    const sujetChoisi = sujetsFiltres[indexAleatoire].texte;\
+    \
+    // Affichage\
+    document.getElementById("sujetAffichage").innerText = sujetChoisi;\
+    \
+    // Lancer un minuteur de 2 minutes pour s'entra\'eener\
+    demarrerMinuteur(120); \
+\}\
+\
+function demarrerMinuteur(secondes) \{\
+    tempsRestant = secondes;\
+    intervalleTimer = setInterval(() => \{\
+        let minutes = Math.floor(tempsRestant / 60);\
+        let secs = tempsRestant % 60;\
+        secs = secs < 10 ? "0" + secs : secs;\
+        \
+        document.getElementById("timerAffichage").innerText = `
+\f1 \uc0\u9201 \u65039 
+\f0  Temps de parole restant : $\{minutes\}:$\{secs\}`;\
+        \
+        if (tempsRestant <= 0) \{\
+            clearInterval(intervalleTimer);\
+            document.getElementById("timerAffichage").innerText = "
+\f1 \uc0\u8987 
+\f0  Temps \'e9coul\'e9 ! Bravo !";\
+        \}\
+        tempsRestant--;\
+    \}, 1000);\
+\}\
+</script>\
+\
+</body>\
+</html>\
+}
